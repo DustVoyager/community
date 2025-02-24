@@ -2,20 +2,33 @@ import { colors } from "@/constants";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Octicons, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { Post } from "@/types";
 
-interface FeedItemProps {}
+interface FeedItemProps {
+  post: Post;
+}
 
-function FeedItem({}: FeedItemProps) {
+function FeedItem({ post }: FeedItemProps) {
+  const isLike = false;
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>게시글 제목</Text>
-        <Text style={styles.description}>게시글 내용</Text>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text numberOfLines={3} style={styles.description}>
+          {post.description}
+        </Text>
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
-          <Octicons name="heart" size={16} color={colors.ORANGE_600} />
-          <Text>1</Text>
+          <Octicons
+            name={isLike ? "heart-fill" : "heart"}
+            size={16}
+            color={isLike ? colors.ORANGE_600 : colors.BLACK}
+          />
+          <Text style={isLike ? styles.activeMenuText : styles.memuText}>
+            1
+          </Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <MaterialCommunityIcons
@@ -23,11 +36,11 @@ function FeedItem({}: FeedItemProps) {
             size={16}
             color={colors.BLACK}
           />
-          <Text>1</Text>
+          <Text style={styles.memuText}>1</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
-          <Text>1</Text>
+          <Text style={styles.memuText}>1</Text>
         </Pressable>
       </View>
     </View>
@@ -66,6 +79,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     width: "33%",
     gap: 4,
+  },
+  memuText: {
+    fontSize: 14,
+    color: colors.GRAY_700,
+  },
+  activeMenuText: {
+    fontWeight: "500",
+    color: colors.ORANGE_600,
   },
 });
 
