@@ -20,7 +20,6 @@ function CustomButton({
   variant = "filled",
   ...props
 }: CustomButtonProps) {
-  console.log(styles[variant]);
   return (
     <Pressable
       style={({ pressed }) => [
