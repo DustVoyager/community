@@ -15,7 +15,6 @@ type FormValues = {
 };
 
 export default function SignupScreen() {
-  const arrow = () => console.log(this);
   const { signupMutation } = useAuth();
   const signupForm = useForm<FormValues>({
     defaultValues: {
