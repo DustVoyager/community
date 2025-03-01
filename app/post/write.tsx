@@ -1,3 +1,4 @@
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DescriptionInput from "@/components/DescriptionInput";
 import TitleInput from "@/components/TitleInput";
 import { FormProvider, useForm } from "react-hook-form";
@@ -16,12 +17,12 @@ export default function PostWriteScreen() {
     },
   });
   return (
-    <View style={styles.container}>
-      <FormProvider {...postForm}>
+    <FormProvider {...postForm}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <TitleInput />
         <DescriptionInput />
-      </FormProvider>
-    </View>
+      </KeyboardAwareScrollView>
+    </FormProvider>
   );
 }
 
