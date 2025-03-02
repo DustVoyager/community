@@ -26,8 +26,9 @@ export default function PostWriteScreen() {
     },
   });
 
-  const onSubmit = (fromValues: FormValues) => {
-    createPost.mutate(fromValues);
+  const onSubmit = (formValues: FormValues) => {
+    console.log("fo", formValues);
+    createPost.mutate(formValues);
   };
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function PostWriteScreen() {
         />
       ),
     });
-  });
+  }, []);
 
   return (
     <FormProvider {...postForm}>
