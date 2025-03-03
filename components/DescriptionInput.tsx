@@ -20,7 +20,6 @@ function DescriptionInput({}) {
       render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
         <InputField
           ref={ref}
-          autoFocus
           label="내용"
           placeholder="내용을 입력해주세요."
           returnKeyType="next"

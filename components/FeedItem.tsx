@@ -4,13 +4,16 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Octicons, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { Post } from "@/types";
 import Profile from "./Profile";
+import useAuth from "@/hooks/queries/useAuth";
 
 interface FeedItemProps {
   post: Post;
 }
 
 function FeedItem({ post }: FeedItemProps) {
-  const isLike = false;
+  const { auth } = useAuth();
+  const likeUsers = post.likes?.map((like) => Number(like.userId));
+  const isLiked = likeUsers?.includes(Number(auth.id));
 
   return (
     <View style={styles.container}>
@@ -29,12 +32,12 @@ function FeedItem({ post }: FeedItemProps) {
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
           <Octicons
-            name={isLike ? "heart-fill" : "heart"}
+            name={isLiked ? "heart-fill" : "heart"}
             size={16}
-            color={isLike ? colors.ORANGE_600 : colors.BLACK}
+            color={isLiked ? colors.ORANGE_600 : colors.BLACK}
           />
-          <Text style={isLike ? styles.activeMenuText : styles.memuText}>
-            1
+          <Text style={isLiked ? styles.activeMenuText : styles.memuText}>
+            {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
         <Pressable style={styles.menu}>
@@ -43,11 +46,11 @@ function FeedItem({ post }: FeedItemProps) {
             size={16}
             color={colors.BLACK}
           />
-          <Text style={styles.memuText}>1</Text>
+          <Text style={styles.memuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
-          <Text style={styles.memuText}>1</Text>
+          <Text style={styles.memuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
     </View>
