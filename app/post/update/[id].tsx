@@ -1,9 +1,8 @@
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormProvider, useForm } from "react-hook-form";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import DescriptionInput from "@/components/DescriptionInput";
 import TitleInput from "@/components/TitleInput";
-import useCreatePost from "@/hooks/queries/useCreatePost";
 import { ImageUri } from "@/types";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
