@@ -13,6 +13,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -23,10 +24,17 @@ export default function PostDetailScreen() {
   const createComment = useCreateComment();
   const [content, setContent] = useState("");
   const scrollRef = useRef<ScrollView | null>(null);
+  const inputRef = useRef<TextInput | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
 
   if (isPending || isError) {
     return <></>;
   }
+
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    inputRef.current?.focus();
+  };
 
   const handleSubmitComment = () => {
     const commentData = {
@@ -57,11 +65,17 @@ export default function PostDetailScreen() {
             <Text style={styles.commentCount}>댓글 {post.commentCount}</Text>
 
             {post.comments?.map((comment) => (
-              <CommentItem key={comment.id} comment={comment} />
+              <CommentItem
+                key={comment.id}
+                parentCommentId={parentCommentId}
+                onReply={() => handleReply(comment.id)}
+                comment={comment}
+              />
             ))}
           </ScrollView>
           <View style={styles.commentInputContainer}>
             <InputField
+              ref={inputRef}
               value={content}
               returnKeyType="send"
               onSubmitEditing={handleSubmitComment}

@@ -1,7 +1,7 @@
 import { colors } from "@/constants";
 import { Comment } from "@/types";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Profile from "./Profile";
 import useAuth from "@/hooks/queries/useAuth";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -11,10 +11,17 @@ import useDeleteComment from "@/hooks/queries/useDeleteComment";
 
 interface CommentItemProps {
   comment: Comment;
+  parentCommentId?: number | null;
+  onReply?: () => void;
   isReply?: boolean;
 }
 
-function CommentItem({ comment, isReply = false }: CommentItemProps) {
+function CommentItem({
+  comment,
+  parentCommentId,
+  onReply,
+  isReply = false,
+}: CommentItemProps) {
   const { auth } = useAuth();
   const { showActionSheetWithOptions } = useActionSheet();
   const deleteComment = useDeleteComment();
@@ -76,6 +83,16 @@ function CommentItem({ comment, isReply = false }: CommentItemProps) {
         editable={false}
         value={comment.isDeleted ? "삭제된 댓글입니다." : comment.content}
       />
+      {!comment.isDeleted && !isReply && (
+        <View style={styles.replyButtonContainer}>
+          <Pressable onPress={onReply}>
+            <Text style={styles.replyButton}>답글 남기기</Text>
+          </Pressable>
+          <Pressable>
+            <Text style={styles.cancelButton}>취소</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -92,6 +109,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+  },
+  replyButtonContainer: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+  },
+  replyButton: {
+    fontWeight: "bold",
+    color: colors.ORANGE_600,
+    fontSize: 12,
+  },
+  cancelButton: {
+    fontWeight: "bold",
+    color: colors.BLACK,
+    fontSize: 12,
   },
 });
 
