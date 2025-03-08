@@ -13,6 +13,7 @@ interface CommentItemProps {
   comment: Comment;
   parentCommentId?: number | null;
   onReply?: () => void;
+  onCancelReply?: () => void;
   isReply?: boolean;
 }
 
@@ -20,11 +21,23 @@ function CommentItem({
   comment,
   parentCommentId,
   onReply,
+  onCancelReply,
   isReply = false,
 }: CommentItemProps) {
   const { auth } = useAuth();
   const { showActionSheetWithOptions } = useActionSheet();
   const deleteComment = useDeleteComment();
+
+  const getCommentBackground = () => {
+    if (parentCommentId === comment.id) {
+      return colors.ORANGE_100;
+    }
+    if (isReply) {
+      return colors.GRAY_50;
+    }
+
+    return colors.WHITE;
+  };
 
   const handlePressOption = () => {
     const options = ["삭제", "취소"];
@@ -52,7 +65,9 @@ function CommentItem({
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: getCommentBackground() }]}
+    >
       <View style={styles.profileContainer}>
         {isReply && (
           <MaterialCommunityIcons
@@ -88,9 +103,11 @@ function CommentItem({
           <Pressable onPress={onReply}>
             <Text style={styles.replyButton}>답글 남기기</Text>
           </Pressable>
-          <Pressable>
-            <Text style={styles.cancelButton}>취소</Text>
-          </Pressable>
+          {parentCommentId === comment.id && (
+            <Pressable onPress={onCancelReply}>
+              <Text style={styles.cancelButton}>취소</Text>
+            </Pressable>
+          )}
         </View>
       )}
     </View>

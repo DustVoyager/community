@@ -6,8 +6,9 @@ import { colors } from "@/constants";
 import useCreateComment from "@/hooks/queries/useCreateComment";
 import useGetPost from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import {
+  Keyboard,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -36,11 +37,23 @@ export default function PostDetailScreen() {
     inputRef.current?.focus();
   };
 
+  const handleCancelReply = () => {
+    setParentCommentId(null);
+    Keyboard.dismiss();
+  };
+
   const handleSubmitComment = () => {
     const commentData = {
       postId: post.id,
       content: content,
     };
+    if (parentCommentId) {
+      createComment.mutate({ ...commentData, parentCommentId });
+      setContent("");
+      handleCancelReply();
+      return;
+    }
+
     createComment.mutate(commentData);
     setContent("");
     setTimeout(() => {
@@ -65,12 +78,17 @@ export default function PostDetailScreen() {
             <Text style={styles.commentCount}>댓글 {post.commentCount}</Text>
 
             {post.comments?.map((comment) => (
-              <CommentItem
-                key={comment.id}
-                parentCommentId={parentCommentId}
-                onReply={() => handleReply(comment.id)}
-                comment={comment}
-              />
+              <Fragment key={comment.id}>
+                <CommentItem
+                  parentCommentId={parentCommentId}
+                  onReply={() => handleReply(comment.id)}
+                  onCancelReply={handleCancelReply}
+                  comment={comment}
+                />
+                {comment.replies.map((reply) => (
+                  <CommentItem key={reply.id} comment={reply} isReply />
+                ))}
+              </Fragment>
             ))}
           </ScrollView>
           <View style={styles.commentInputContainer}>
@@ -80,7 +98,9 @@ export default function PostDetailScreen() {
               returnKeyType="send"
               onSubmitEditing={handleSubmitComment}
               onChangeText={(text) => setContent(text)}
-              placeholder="댓글을 남겨보세요."
+              placeholder={
+                parentCommentId ? "답글 남기는 중..." : "댓글을 남겨보세요."
+              }
               rightChild={
                 <Pressable
                   disabled={!content}
