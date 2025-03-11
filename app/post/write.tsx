@@ -10,11 +10,13 @@ import { useEffect } from "react";
 import CustomButton from "@/components/CustomButton";
 import PostWriteFooter from "@/components/PostWriteFooter";
 import ImagePreviewList from "@/components/ImagePreviewList";
+import VoteModal from "@/components/VoteModal";
 
 type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteOpen: boolean;
 };
 
 export default function PostWriteScreen() {
@@ -25,6 +27,7 @@ export default function PostWriteScreen() {
       title: "",
       description: "",
       imageUris: [],
+      isVoteOpen: false,
     },
   });
 
@@ -53,6 +56,7 @@ export default function PostWriteScreen() {
         <ImagePreviewList imageUris={postForm.watch().imageUris} />
       </KeyboardAwareScrollView>
       <PostWriteFooter />
+      <VoteModal />
     </FormProvider>
   );
 }
