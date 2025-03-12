@@ -1,7 +1,7 @@
 import { colors } from "@/constants";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import {
   Modal,
   Pressable,
@@ -10,10 +10,14 @@ import {
   Text,
   View,
 } from "react-native";
+import VoteInput from "./VoteInput";
 
 function VoteModal() {
   const { control, setValue } = useFormContext();
   const [isVoteOpen] = useWatch({ control, name: ["isVoteOpen"] });
+  const { fields } = useFieldArray({ control, name: "voteOptions" });
+
+  console.log("fields", fields);
 
   return (
     <Modal visible={isVoteOpen} animationType="slide">
@@ -28,6 +32,9 @@ function VoteModal() {
           <Text style={styles.headerTitle}>투표</Text>
           <Text style={styles.headerRight}>첨부</Text>
         </View>
+        {fields.map((field, index) => {
+          return <VoteInput key={field.id} index={index} />;
+        })}
       </SafeAreaView>
     </Modal>
   );

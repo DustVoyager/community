@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import DescriptionInput from "@/components/DescriptionInput";
 import TitleInput from "@/components/TitleInput";
 import useCreatePost from "@/hooks/queries/useCreatePost";
-import { ImageUri } from "@/types";
+import { ImageUri, VoteOption } from "@/types";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import CustomButton from "@/components/CustomButton";
@@ -17,6 +17,7 @@ type FormValues = {
   description: string;
   imageUris: ImageUri[];
   isVoteOpen: boolean;
+  voteOptions: VoteOption[];
 };
 
 export default function PostWriteScreen() {
@@ -28,6 +29,7 @@ export default function PostWriteScreen() {
       description: "",
       imageUris: [],
       isVoteOpen: false,
+      voteOptions: [{ displayPriority: 0, content: "" }],
     },
   });
 
