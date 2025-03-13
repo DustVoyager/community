@@ -11,13 +11,12 @@ import {
   View,
 } from "react-native";
 import VoteInput from "./VoteInput";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function VoteModal() {
   const { control, setValue } = useFormContext();
   const [isVoteOpen] = useWatch({ control, name: ["isVoteOpen"] });
   const { fields } = useFieldArray({ control, name: "voteOptions" });
-
-  console.log("fields", fields);
 
   return (
     <Modal visible={isVoteOpen} animationType="slide">
@@ -32,9 +31,13 @@ function VoteModal() {
           <Text style={styles.headerTitle}>투표</Text>
           <Text style={styles.headerRight}>첨부</Text>
         </View>
-        {fields.map((field, index) => {
-          return <VoteInput key={field.id} index={index} />;
-        })}
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ gap: 12, padding: 16 }}
+        >
+          {fields.map((field, index) => {
+            return <VoteInput key={field.id} index={index} />;
+          })}
+        </KeyboardAwareScrollView>
       </SafeAreaView>
     </Modal>
   );
