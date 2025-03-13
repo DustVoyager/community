@@ -12,11 +12,35 @@ import {
 } from "react-native";
 import VoteInput from "./VoteInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { VoteOption } from "@/types";
 
 function VoteModal() {
   const { control, setValue } = useFormContext();
-  const [isVoteOpen] = useWatch({ control, name: ["isVoteOpen"] });
-  const { fields } = useFieldArray({ control, name: "voteOptions" });
+  const [voteOptions, isVoteOpen] = useWatch({
+    control,
+    name: ["voteOptions", "isVoteOpen"],
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "voteOptions",
+  });
+
+  const handleAppendVote = () => {
+    const priorities = voteOptions.map(
+      (vote: VoteOption) => vote.displayPriority
+    );
+
+    const nextPriority = Math.max(...priorities) + 1;
+    console.log(
+      "---voteOptions ---",
+      voteOptions,
+      "---priorities---",
+      priorities,
+      "---nextPriority---",
+      nextPriority
+    );
+    append({ displayPriority: nextPriority, content: "" });
+  };
 
   return (
     <Modal visible={isVoteOpen} animationType="slide">
@@ -35,8 +59,17 @@ function VoteModal() {
           contentContainerStyle={{ gap: 12, padding: 16 }}
         >
           {fields.map((field, index) => {
-            return <VoteInput key={field.id} index={index} />;
+            return (
+              <VoteInput
+                key={field.id}
+                index={index}
+                onRemove={() => remove(index)}
+              />
+            );
           })}
+          <Pressable onPress={handleAppendVote}>
+            <Text style={styles.addVoteText}>+ 항목추가</Text>
+          </Pressable>
         </KeyboardAwareScrollView>
       </SafeAreaView>
     </Modal>
@@ -68,6 +101,12 @@ const styles = StyleSheet.create({
     color: colors.ORANGE_600,
     paddingVertical: 10,
     paddingHorizontal: 15,
+  },
+  addVoteText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.GRAY_500,
+    textAlign: "center",
   },
 });
 
