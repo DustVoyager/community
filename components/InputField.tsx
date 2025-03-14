@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   filledText: {
-    color: colors.ORANGE_600,
+    color: colors.BLACK,
   },
   input: { fontSize: 16, padding: 0, flex: 1 },
   error: {

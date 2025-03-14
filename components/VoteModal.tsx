@@ -3,6 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import {
+  Alert,
   Modal,
   Pressable,
   SafeAreaView,
@@ -31,15 +32,17 @@ function VoteModal() {
     );
 
     const nextPriority = Math.max(...priorities) + 1;
-    console.log(
-      "---voteOptions ---",
-      voteOptions,
-      "---priorities---",
-      priorities,
-      "---nextPriority---",
-      nextPriority
-    );
     append({ displayPriority: nextPriority, content: "" });
+  };
+
+  const handleSubmitVote = () => {
+    if (voteOptions.length < 2) {
+      Alert.alert("투표 항목을 2개 이상 추가해주세요.", "");
+      return;
+    }
+
+    setValue("isVoteAttached", true);
+    setValue("isVoteOpen", false);
   };
 
   return (
@@ -53,7 +56,9 @@ function VoteModal() {
             <Feather name="arrow-left" size={28} color={colors.BLACK} />
           </Pressable>
           <Text style={styles.headerTitle}>투표</Text>
-          <Text style={styles.headerRight}>첨부</Text>
+          <Text style={styles.headerRight} onPress={handleSubmitVote}>
+            첨부
+          </Text>
         </View>
         <KeyboardAwareScrollView
           contentContainerStyle={{ gap: 12, padding: 16 }}
