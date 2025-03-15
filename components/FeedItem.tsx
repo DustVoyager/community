@@ -80,6 +80,19 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
         </Text>
 
         <ImagePreviewList imageUris={post.imageUris} />
+        {!isDetail && post.hasVote && (
+          <View style={styles.voteContainer}>
+            <View style={styles.voteTextContainer}>
+              <MaterialCommunityIcons
+                name="vote"
+                size={24}
+                color={colors.ORANGE_600}
+              />
+              <Text style={styles.voteCountText}>투표</Text>
+            </View>
+            <Text style={styles.voteCount}>{post.voteCount}명 참여중...</Text>
+          </View>
+        )}
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
@@ -149,6 +162,33 @@ const styles = StyleSheet.create({
   activeMenuText: {
     fontWeight: "500",
     color: colors.ORANGE_600,
+  },
+  voteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 14,
+    gap: 16,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: colors.ORANGE_600,
+    backgroundColor: colors.ORANGE_100,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  voteTextContainer: {
+    gap: 6,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  voteCountText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.ORANGE_600,
+  },
+  voteCount: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.BLACK,
   },
 });
 
