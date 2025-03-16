@@ -9,6 +9,7 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import useDeletePost from "@/hooks/queries/useDeletePost";
 import { router } from "expo-router";
 import ImagePreviewList from "./ImagePreviewList";
+import Vote from "./Vote";
 
 interface FeedItemProps {
   post: Post;
@@ -92,6 +93,14 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             </View>
             <Text style={styles.voteCount}>{post.voteCount}명 참여중...</Text>
           </View>
+        )}
+
+        {isDetail && post.hasVote && (
+          <Vote
+            postId={post.id}
+            postVotes={post.votes ?? []}
+            voteCount={post.voteCount}
+          />
         )}
       </View>
       <View style={styles.menuContainer}>
