@@ -18,10 +18,18 @@ function VoteOptions({
   isSelected,
   onSelectOption,
 }: VoteOptionsProps) {
+  const percent = option.userVotes.length
+    ? Math.floor((option.userVotes.length / totalCount) * 100)
+    : 0;
+
   return (
     <>
       {isVoted ? (
-        <View></View>
+        <View>
+          <Text>
+            {percent}% ({option.userVotes.length})
+          </Text>
+        </View>
       ) : (
         <Pressable
           onPress={onSelectOption}

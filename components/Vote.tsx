@@ -6,6 +6,7 @@ import React, { Fragment, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "./CustomButton";
 import VoteOptions from "./VoteOptions";
+import useCreateVote from "@/hooks/queries/useCreateVote";
 
 interface VoteProps {
   postId: number;
@@ -16,6 +17,14 @@ interface VoteProps {
 function Vote({ postId, postVotes, voteCount }: VoteProps) {
   const { auth } = useAuth();
   const [selectedId, setSelectedId] = useState<number>();
+  const createVote = useCreateVote();
+
+  const handleVote = () => {
+    createVote.mutate({
+      postId: postId,
+      voteOptionId: Number(selectedId),
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -37,7 +46,6 @@ function Vote({ postId, postVotes, voteCount }: VoteProps) {
         return (
           <Fragment key={vote.id}>
             {vote.options.map((option) => {
-              console.log(option, selectedId);
               return (
                 <VoteOptions
                   option={option}
@@ -52,7 +60,7 @@ function Vote({ postId, postVotes, voteCount }: VoteProps) {
               <CustomButton
                 label="투표하기"
                 disabled={!selectedId}
-                onPress={() => {}}
+                onPress={handleVote}
               />
             )}
           </Fragment>
