@@ -25,8 +25,10 @@ function VoteOptions({
   return (
     <>
       {isVoted ? (
-        <View>
-          <Text>
+        <View style={styles.votedContainer}>
+          <View style={[styles.percent, { width: `${percent}%` }]} />
+          <Text style={styles.content}>{option.content}</Text>
+          <Text style={styles.percentText}>
             {percent}% ({option.userVotes.length})
           </Text>
         </View>
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedContainer: {
-    height: 40,
+    height: 44,
     borderRadius: 8,
     backgroundColor: colors.WHITE,
     borderWidth: 1,
@@ -67,6 +69,29 @@ const styles = StyleSheet.create({
   },
   content: {
     marginLeft: 10,
+  },
+  votedContainer: {
+    height: 44,
+    borderRadius: 8,
+    backgroundColor: colors.ORANGE_200,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    overflow: "hidden",
+    alignItems: "center",
+  },
+  percent: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: 44,
+    backgroundColor: colors.ORANGE_300,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  percentText: {
+    marginRight: 10,
+    fontWeight: "500",
   },
 });
 
