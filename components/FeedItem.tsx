@@ -48,7 +48,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
     );
   };
 
-  const handlePressFedd = () => {
+  const handlePressFeed = () => {
     if (!isDetail) {
       router.push(`/post/${post.id}`);
     }
@@ -57,7 +57,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
   const ContainerComponent = isDetail ? View : Pressable;
 
   return (
-    <ContainerComponent style={styles.container} onPress={handlePressFedd}>
+    <ContainerComponent style={styles.container} onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
         <Profile
           imageUri={post.author.imageUri}
@@ -114,7 +114,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable style={styles.menu} onPress={handlePressFeed}>
           <MaterialCommunityIcons
             name="comment-processing-outline"
             size={16}
@@ -122,7 +122,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           />
           <Text style={styles.memuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable style={styles.menu} onPress={handlePressFeed}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
           <Text style={styles.memuText}>{post.viewCount}</Text>
         </Pressable>
