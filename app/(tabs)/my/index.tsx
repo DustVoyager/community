@@ -5,6 +5,7 @@ import { baseUrls } from "@/api/axios";
 import { colors } from "@/constants";
 import Tab from "@/components/Tab";
 import { useState } from "react";
+import CustomButton from "@/components/CustomButton";
 
 export default function MyScreen() {
   const { auth } = useAuth();
@@ -29,7 +30,14 @@ export default function MyScreen() {
           }
           style={styles.avatar}
         />
+        <CustomButton
+          size="medium"
+          variant="outlined"
+          label="프로필 편집"
+          style={{ position: "absolute", right: 16, bottom: 16 }}
+        />
       </View>
+
       <View style={styles.container}>
         <View style={styles.profile}>
           <Text style={styles.nickname}>{auth.nickname}</Text>
