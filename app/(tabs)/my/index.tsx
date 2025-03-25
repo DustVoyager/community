@@ -7,6 +7,8 @@ import Tab from "@/components/Tab";
 import { useRef, useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import PagerView from "react-native-pager-view";
+import MyFeedList from "@/components/MyFeedList";
+import LikedFeedList from "@/components/LikedFeedList";
 
 export default function MyScreen() {
   const { auth } = useAuth();
@@ -62,8 +64,8 @@ export default function MyScreen() {
         style={{ flex: 1 }}
         onPageSelected={(e) => setCurrentTab(e.nativeEvent.position)}
       >
-        <Text>내가쓴게시글</Text>
-        <Text>좋아요한게시글들</Text>
+        <MyFeedList key={1} />
+        <LikedFeedList key={2} />
       </PagerView>
     </AuthRoute>
   );
