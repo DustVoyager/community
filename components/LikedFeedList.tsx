@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import FeedItem from "./FeedItem";
 import { colors } from "@/constants";
-import useGetInfinitePosts from "@/hooks/queries/useGetInfinitePosts";
 import { useScrollToTop } from "@react-navigation/native";
+import useGetInfiniteLikedPosts from "@/hooks/queries/useGetInfiniteLikedPosts";
 
 function LikedFeedList({}) {
   const {
@@ -12,7 +12,7 @@ function LikedFeedList({}) {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInfinitePosts();
+  } = useGetInfiniteLikedPosts();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const ref = useRef<FlatList | null>(null);
