@@ -24,6 +24,7 @@ const queryKyes = {
   GET_POST: "getPost",
   GET_MY_POSTS: "getMyPosts",
   GET_LIKED_POST: "getLikedPosts",
+  GET_USER_PROFILE: "getUserProfile",
 };
 
 export { colors, queryKyes };
