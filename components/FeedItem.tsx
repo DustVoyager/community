@@ -29,6 +29,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
     const options = ["삭제", "수정", "취소"];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 2;
+
     showActionSheetWithOptions(
       { options, cancelButtonIndex, destructiveButtonIndex },
       (selectedIndex?: number) => {
@@ -41,7 +42,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           case 1:
             router.push(`/post/update/${post.id}`);
             break;
-          case cancelButtonIndex: //취소
+          case cancelButtonIndex:
             break;
           default:
             break;
@@ -61,7 +62,6 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
       router.push("/auth");
       return;
     }
-
     if (!isDetail) {
       router.push(`/post/${post.id}`);
       return;
@@ -79,7 +79,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           imageUri={post.author.imageUri}
           nickname={post.author.nickname}
           createdAt={post.createdAt}
-          onPress={() => {}}
+          onPress={() => router.push(`/profile/${post.author.id}`)}
           option={
             auth.id === post.author.id && (
               <Ionicons
@@ -105,12 +105,13 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
                 size={24}
                 color={colors.ORANGE_600}
               />
-              <Text style={styles.voteCountText}>투표</Text>
+              <Text style={styles.voteText}>투표</Text>
             </View>
-            <Text style={styles.voteCount}>{post.voteCount}명 참여중...</Text>
+            <Text style={styles.voteCountText}>
+              {post.voteCount}명 참여중...
+            </Text>
           </View>
         )}
-
         {isDetail && post.hasVote && (
           <Vote
             postId={post.id}
@@ -126,7 +127,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             size={16}
             color={isLiked ? colors.ORANGE_600 : colors.BLACK}
           />
-          <Text style={isLiked ? styles.activeMenuText : styles.memuText}>
+          <Text style={isLiked ? styles.activeMenuText : styles.menuText}>
             {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
@@ -136,11 +137,11 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             size={16}
             color={colors.BLACK}
           />
-          <Text style={styles.memuText}>{post.commentCount || "댓글"}</Text>
+          <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
         <Pressable style={styles.menu} onPress={handlePressFeed}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
-          <Text style={styles.memuText}>{post.viewCount}</Text>
+          <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
     </ContainerComponent>
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     width: "33%",
     gap: 4,
   },
-  memuText: {
+  menuText: {
     fontSize: 14,
     color: colors.GRAY_700,
   },
@@ -205,12 +206,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  voteCountText: {
+  voteText: {
     fontSize: 14,
     fontWeight: "bold",
     color: colors.ORANGE_600,
   },
-  voteCount: {
+  voteCountText: {
     fontSize: 14,
     fontWeight: "bold",
     color: colors.BLACK,

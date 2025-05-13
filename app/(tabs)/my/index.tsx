@@ -1,4 +1,11 @@
-import { Image, Platform, StyleSheet, View, Text } from "react-native";
+import {
+  Image,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import AuthRoute from "@/components/AuthRoute";
 import useAuth from "@/hooks/queries/useAuth";
 import { baseUrls } from "@/api/axios";
@@ -9,6 +16,7 @@ import CustomButton from "@/components/CustomButton";
 import PagerView from "react-native-pager-view";
 import MyFeedList from "@/components/MyFeedList";
 import LikedFeedList from "@/components/LikedFeedList";
+import { router } from "expo-router";
 
 export default function MyScreen() {
   const { auth } = useAuth();
@@ -40,9 +48,9 @@ export default function MyScreen() {
           variant="outlined"
           label="프로필 편집"
           style={{ position: "absolute", right: 16, bottom: 16 }}
+          onPress={() => router.push("/profile/update")}
         />
       </View>
-
       <View style={styles.container}>
         <View style={styles.profile}>
           <Text style={styles.nickname}>{auth.nickname}</Text>
@@ -58,14 +66,15 @@ export default function MyScreen() {
           좋아한 게시물
         </Tab>
       </View>
+
       <PagerView
         ref={pagerRef}
         initialPage={0}
         style={{ flex: 1 }}
         onPageSelected={(e) => setCurrentTab(e.nativeEvent.position)}
       >
-        <MyFeedList key={1} />
-        <LikedFeedList key={2} />
+        <MyFeedList key="1" />
+        <LikedFeedList key="2" />
       </PagerView>
     </AuthRoute>
   );
