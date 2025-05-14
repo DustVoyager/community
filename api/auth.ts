@@ -1,6 +1,6 @@
-import { getSecureStore } from "@/utils/secureStore";
-import axiosInstance from "./axios";
 import { Profile } from "@/types";
+import axiosInstance from "./axios";
+import { getSecureStore } from "@/utils/secureStore";
 
 type RequestUser = {
   email: string;
@@ -21,6 +21,7 @@ async function postLogin(body: RequestUser): Promise<{ accessToken: string }> {
 
 async function getMe(): Promise<Profile> {
   const accessToken = await getSecureStore("accessToken");
+
   const { data } = await axiosInstance.get("/auth/me", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -36,4 +37,10 @@ async function getUserProfile(id: number): Promise<Profile> {
   return data;
 }
 
-export { postSignup, postLogin, getMe, getUserProfile };
+async function editProfile(body: Partial<Profile>): Promise<Profile> {
+  const { data } = await axiosInstance.patch("/auth/me", body);
+
+  return data;
+}
+
+export { postSignup, postLogin, getMe, getUserProfile, editProfile };
