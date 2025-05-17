@@ -1,6 +1,8 @@
 import { baseUrls } from "@/api/axios";
 import CustomButton from "@/components/CustomButton";
 import FixedBottomCTA from "@/components/FixedBottomCTA";
+import IntroduceInput from "@/components/IntroduceInput";
+import NicknameInput from "@/components/NicknameInput";
 import { colors } from "@/constants";
 import useAuth from "@/hooks/queries/useAuth";
 import { router } from "expo-router";
@@ -56,7 +58,10 @@ export default function ProfileUpdateScreen() {
             onPress={() => router.push("/profile/avatar")}
           />
         </View>
-        <View style={styles.inputContainer}></View>
+        <View style={styles.inputContainer}>
+          <NicknameInput />
+          <IntroduceInput />
+        </View>
       </View>
 
       <FixedBottomCTA
