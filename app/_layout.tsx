@@ -1,59 +1,60 @@
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import "react-native-reanimated";
-import { QueryClientProvider } from "@tanstack/react-query";
-import queryClient from "@/api/queryClient";
-import useAuth from "@/hooks/queries/useAuth";
-import Toast from "react-native-toast-message";
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { colors } from "@/constants";
+import { Feather } from "@expo/vector-icons";
+import { router, Stack } from "expo-router";
+import { Pressable } from "react-native";
 
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+export default function ProfileLayout() {
   return (
-    <ActionSheetProvider>
-      <QueryClientProvider client={queryClient}>
-        <RootNavigator />
-        <Toast />
-      </QueryClientProvider>
-    </ActionSheetProvider>
-  );
-}
-
-function RootNavigator() {
-  const { auth } = useAuth();
-  useEffect(() => {
-    auth.id &&
-      Toast.show({
-        type: "success",
-        text1: `${auth.nickname ?? "회원"}님 환영합니다!`,
-      });
-  });
-
-  return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="auth" options={{ headerShown: false }} />
-      <Stack.Screen name="profile" options={{ headerShown: false }} />
-      <Stack.Screen name="post" options={{ headerShown: false }} />
-      <Stack.Screen name="image" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
+    <Stack
+      screenOptions={{
+        headerTintColor: colors.BLACK,
+        contentStyle: {
+          backgroundColor: colors.WHITE,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerTitle: "",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color={"black"} />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="update"
+        options={{
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerTitle: "프로필 편집",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color={"black"} />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="avatar"
+        options={{
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerTitle: "",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color={"black"} />
+            </Pressable>
+          ),
+        }}
+      />
     </Stack>
   );
 }
